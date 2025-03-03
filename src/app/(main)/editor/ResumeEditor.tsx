@@ -2,6 +2,7 @@
 
 import Footer from "./Footer";
 import GeneralInfoForm from "./forms/GeneralInfoForm";
+import PersonalInfoForm from "./forms/PersonalInoForm";
 
 export default function ResumeEditor() {
   return (
@@ -15,8 +16,9 @@ export default function ResumeEditor() {
       </header>
       <main className="relative grow">
         <div className="absolute bottom-0 top-0 flex w-full">
-          <div className="w-full md:w-1/2 p-3">
-            <GeneralInfoForm />
+          <div className="w-full md:w-1/2 p-3 overflow-y-auto">
+            {/* <GeneralInfoForm /> */}
+            <PersonalInfoForm />
           </div>
           <div className="grow md:border-r" />
           <div className=" hidden w-1/2 md:flex  ">Right</div>
