@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 
 import { personalInfoSchema, PersonalInfoValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 
 export default function PersonalInfoForm() {
@@ -27,6 +27,15 @@ export default function PersonalInfoForm() {
       email: "",
     },
   });
+
+  useEffect(() => {
+    const { unsubscribe } = form.watch(async (values) => {
+      const isValid = await form.trigger();
+      if (!isValid) return;
+      // Update resume data
+    });
+    return unsubscribe;
+  }, [form]);
 
   const photoInputRef = useRef<HTMLInputElement>(null);
 
