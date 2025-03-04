@@ -2,14 +2,17 @@
 
 import { useSearchParams } from "next/navigation";
 import Footer from "./Footer";
-import GeneralInfoForm from "./forms/GeneralInfoForm";
-import PersonalInfoForm from "./forms/PersonalInoForm";
 import { steps } from "./steps";
 import Breadcrumbs from "./Breadcrumbs";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { ResumeValues } from "@/lib/validation";
 
 export default function ResumeEditor() {
   const searchParams = useSearchParams();
+
+  const [resumeData, setResumeData] = useState<ResumeValues>({});
+
   const currentStep = searchParams.get("step") || steps[0].key;
 
   function setStep(key: string) {
@@ -38,7 +41,12 @@ export default function ResumeEditor() {
             )}
           >
             <Breadcrumbs currentStep={currentStep} setCurrentStep={setStep} />
-            {FormComponent && <FormComponent />}
+            {FormComponent && (
+              <FormComponent
+                resumeData={resumeData}
+                setResumeData={setResumeData}
+              />
+            )}
           </div>
           <div className="grow md:border-r" />
           <div className=" hidden w-1/2 md:flex  ">Right</div>
