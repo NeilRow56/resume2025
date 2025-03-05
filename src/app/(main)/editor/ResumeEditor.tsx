@@ -7,11 +7,14 @@ import Breadcrumbs from "./Breadcrumbs";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { ResumeValues } from "@/lib/validation";
+import ResumePreviewSection from "./ResumePrevieSection";
 
 export default function ResumeEditor() {
   const searchParams = useSearchParams();
 
   const [resumeData, setResumeData] = useState<ResumeValues>({});
+
+  const [showSmResumePreview, setShowSmResumePreview] = useState(true);
 
   const currentStep = searchParams.get("step") || steps[0].key;
 
@@ -49,9 +52,12 @@ export default function ResumeEditor() {
             )}
           </div>
           <div className="grow md:border-r" />
-          <div className=" hidden w-1/2 md:flex  ">
-            <pre>{JSON.stringify(resumeData, null, 2)}</pre>
-          </div>
+
+          <ResumePreviewSection
+            resumeData={resumeData}
+            setResumeData={setResumeData}
+            className={cn(showSmResumePreview && "flex")}
+          />
         </div>
       </main>
       <Footer currentStep={currentStep} setCurrentStep={setStep} />
