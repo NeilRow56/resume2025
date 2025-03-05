@@ -1,9 +1,12 @@
+import { BorderStyles } from "@/app/(main)/editor/BorderStyleButton";
+
 import { cn } from "@/lib/utils";
 import { ResumeValues } from "@/lib/validation";
 import { formatDate } from "date-fns";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Badge } from "./ui/badge";
+import useDimensions from "@/hooks/use-dimensions";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
@@ -14,14 +17,24 @@ export default function ResumePreview({
   resumeData,
   className,
 }: ResumePreviewProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { width } = useDimensions(containerRef);
+
   return (
     <div
       className={cn(
         "aspect-[210/297] h-fit w-full bg-white text-black",
         className
       )}
+      ref={containerRef}
     >
-      <div className={cn("space-y-6 p-6")}>
+      <div
+        className={cn("space-y-6 p-6", !width && "invisible")}
+        style={{
+          zoom: (1 / 794) * width,
+        }}
+      >
         {/* <pre>{JSON.stringify(resumeData, null, 2)}</pre> */}
         <PersonalInfoHeader resumeData={resumeData} />
         <SummarySection resumeData={resumeData} />
@@ -69,6 +82,14 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
           height={100}
           alt="Author photo"
           className="aspect-square object-cover"
+          style={{
+            borderRadius:
+              borderStyle === BorderStyles.SQUARE
+                ? "0px"
+                : borderStyle === BorderStyles.CIRCLE
+                  ? "9999px"
+                  : "10%",
+          }}
         />
       )}
       <div className="space-y-2.5">
@@ -258,6 +279,15 @@ function SkillsSection({ resumeData }: ResumeSectionProps) {
             <Badge
               key={index}
               className="rounded-md bg-black text-white hover:bg-black"
+              style={{
+                backgroundColor: colorHex,
+                borderRadius:
+                  borderStyle === BorderStyles.SQUARE
+                    ? "0px"
+                    : borderStyle === BorderStyles.CIRCLE
+                      ? "9999px"
+                      : "8px",
+              }}
             >
               {skill}
             </Badge>

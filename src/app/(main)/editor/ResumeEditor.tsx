@@ -7,7 +7,7 @@ import Breadcrumbs from "./Breadcrumbs";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { ResumeValues } from "@/lib/validation";
-import ResumePreviewSection from "./ResumePrevieSection";
+import ResumePreviewSection from "./ResumePreviewSection";
 
 export default function ResumeEditor() {
   const searchParams = useSearchParams();
