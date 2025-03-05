@@ -1,20 +1,20 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import Footer from "./Footer";
-import { steps } from "./steps";
-import Breadcrumbs from "./Breadcrumbs";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { ResumeValues } from "@/lib/validation";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import Breadcrumbs from "./Breadcrumbs";
+import Footer from "./Footer";
 import ResumePreviewSection from "./ResumePreviewSection";
+import { steps } from "./steps";
 
 export default function ResumeEditor() {
   const searchParams = useSearchParams();
 
   const [resumeData, setResumeData] = useState<ResumeValues>({});
 
-  const [showSmResumePreview, setShowSmResumePreview] = useState(true);
+  const [showSmResumePreview, setShowSmResumePreview] = useState(false);
 
   const currentStep = searchParams.get("step") || steps[0].key;
 
@@ -27,10 +27,11 @@ export default function ResumeEditor() {
   const FormComponent = steps.find(
     (step) => step.key === currentStep
   )?.component;
+
   return (
     <div className="flex grow flex-col">
-      <header className="space-y-1.5 border-b  px-3 py-5 text-center">
-        <h1 className="text-2xl font-bold text-primary">Design your Resume</h1>
+      <header className="space-y-1.5 border-b px-3 py-5 text-center">
+        <h1 className="text-2xl font-bold">Design your resume</h1>
         <p className="text-sm text-muted-foreground">
           Follow the steps below to create your resume. Your progress will be
           saved automatically.
@@ -40,7 +41,8 @@ export default function ResumeEditor() {
         <div className="absolute bottom-0 top-0 flex w-full">
           <div
             className={cn(
-              "w-full space-y-6 overflow-y-auto p-3 md:block md:w-1/2"
+              "w-full space-y-6 overflow-y-auto p-3 md:block md:w-1/2",
+              showSmResumePreview && "hidden"
             )}
           >
             <Breadcrumbs currentStep={currentStep} setCurrentStep={setStep} />
@@ -52,7 +54,6 @@ export default function ResumeEditor() {
             )}
           </div>
           <div className="grow md:border-r" />
-
           <ResumePreviewSection
             resumeData={resumeData}
             setResumeData={setResumeData}
@@ -60,7 +61,12 @@ export default function ResumeEditor() {
           />
         </div>
       </main>
-      <Footer currentStep={currentStep} setCurrentStep={setStep} />
+      <Footer
+        currentStep={currentStep}
+        setCurrentStep={setStep}
+        showSmResumePreview={showSmResumePreview}
+        setShowSmResumePreview={setShowSmResumePreview}
+      />
     </div>
   );
 }
